@@ -1,0 +1,12 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  server:
+    image: "twostep"
+    ports:
+      - "8081:8081" 
+  client:
+    image: "twostep-test"
+    depends_on: 
+      - "server"
+volumes:
+  logvolume01: {}

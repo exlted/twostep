@@ -1,0 +1,18 @@
+FROM golang:1.16.5-alpine as builder
+# create a working directory
+WORKDIR /go/src/app
+# add source code
+ADD server src
+# build the source
+RUN cd src; go build -o ../main main.go
+
+# use scratch (base for a docker image)
+FROM alpine
+# set working directory
+WORKDIR /root
+# copy the binary from builder
+COPY --from=builder /go/src/app/main .
+# run the binary
+CMD ["./main"]
+
+EXPOSE 8081/tcp
